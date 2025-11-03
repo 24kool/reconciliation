@@ -1,10 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 from utils import stream_csv_as_dict
 
 app = FastAPI(
     title="Collective: Take-home by KC Kim",
     version="1.0.0",
+)
+
+# ✅ Allow all origins (good for development)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins
+    allow_credentials=True,
+    allow_methods=["GET"],
+    allow_headers=["*"],  # Allow all headers
 )
 
 @app.get("/validate")
