@@ -12,3 +12,10 @@ uvicorn main:app --reload
 
 b. Frontend:
 
+```
+cd ..
+cd frontend
+npm install
+npm run dev
+```
+

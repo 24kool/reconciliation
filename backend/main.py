@@ -19,20 +19,24 @@ app.add_middleware(
 
 @app.get("/validate")
 def validate():
+    # Read the transactions and bank balances from the CSV files
     transactions = read_csv_as_dict("data/transactions.csv")
     bank_balances = read_csv_as_dict("data/bank_balances.csv")
     
+    # Initialize the dictionaries to store the transaction totals and cumulative transaction totals per date
     transaction_total_per_date = {}
     transaction_total_per_date_cumulative = {}
     transactions_per_date = {}
     cur_transaction_total = 0
 
+    # Iterate through the transactions and calculate the transaction totals and cumulative transaction totals per date
     for row in transactions:
         transaction_date = row["date"]
         transaction_amount = float(row["amount"])
 
         if transaction_date not in transaction_total_per_date:
             transaction_total_per_date[transaction_date] = 0
+            # Initialize the list to store the transactions for the date
             transactions_per_date[transaction_date] = []
         
         transaction_total_per_date[transaction_date] += transaction_amount
@@ -54,7 +58,7 @@ def validate():
 
     for date in all_dates:
         transaction_total = transaction_total_per_date.get(date, 0)
-        # get previous date's transaction_total if available
+        # Get the previous date's transaction_total if available
         if transaction_total == 0:
             idx = all_dates.index(date)
             if idx > 0:
@@ -65,6 +69,8 @@ def validate():
         bank_balance = bank_balance_per_date.get(date, 0)
         match_bool = transaction_cumulative == bank_balance
         transactions_list = transactions_per_date.get(date, [])
+        
+        # Output the results in the format of the ReconciliationResult class
         res.append({
             "date": date,
             "bank_balance": bank_balance,

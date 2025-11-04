@@ -36,6 +36,7 @@ export default function Home() {
         {loading && <p>Loading...</p>}
         {error && <p className="text-destructive">Error: {error}</p>}
         {!loading && !error && (
+        //   Table with header and body
           <Table>
             <TableHeader className="bg-gray-100">
               <TableRow>
@@ -54,6 +55,8 @@ export default function Home() {
                   <TableCell>{result.transaction_total_per_date_cumulative}</TableCell>
                   <TableCell>
                     <Tooltip>
+                        {/* Adding tooltip to show list for transactions for the date. */}
+                        {/* It should show the list of transactions for the date when the user hovers over the cell on Transaction Total per Date column. */}
                       <TooltipTrigger asChild>
                         <span className="cursor-auto border-b border-dotted border-border">
                           {result.transaction_total_per_date}
